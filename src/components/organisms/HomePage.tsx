@@ -7,7 +7,7 @@ import { Typography } from "../atoms/Typography";
 import { Item } from "../../types";
 
 export const HomePage: React.FC = React.memo(() => {
-  const { data: items, error, isLoading } = useItems();
+  const { data: items, error } = useItems();
   const { showOnlyCreated, addCreatedItem, toggleShowAll, getItemsToDisplay, itemsCount } =
     useCreatedItems();
 
@@ -21,14 +21,6 @@ export const HomePage: React.FC = React.memo(() => {
   const itemsToDisplay = useMemo(() => {
     return getItemsToDisplay(items || []);
   }, [getItemsToDisplay, items]);
-
-  if (isLoading) {
-    return (
-      <div className="p-6">
-        <Typography variant="p">Loading...</Typography>
-      </div>
-    );
-  }
 
   if (error) {
     return (
