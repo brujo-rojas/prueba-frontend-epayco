@@ -8,14 +8,13 @@ interface ButtonProps {
   variant?: "primary" | "secondary" | "success";
 }
 
-export const Button: React.FC<ButtonProps> = React.memo(
-  ({
-    type = "button",
-    onClick,
-    disabled = false,
-    children,
-    variant = "primary",
-  }) => {
+function Button({
+  type = "button",
+  onClick,
+  disabled = false,
+  children,
+  variant = "primary",
+}: ButtonProps) {
     const getVariantClasses = () => {
       switch (variant) {
         case "secondary":
@@ -37,5 +36,6 @@ export const Button: React.FC<ButtonProps> = React.memo(
         {children}
       </button>
     );
-  }
-);
+}
+
+export { Button };

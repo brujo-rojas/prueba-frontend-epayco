@@ -1,4 +1,3 @@
-import React from 'react';
 import { ItemCard } from '../molecules/ItemCard';
 import { Item } from '../../types';
 import { Typography } from '../atoms/Typography';
@@ -7,7 +6,7 @@ interface ItemListProps {
   items: Item[];
 }
 
-export const ItemList: React.FC<ItemListProps> = React.memo(({ items }) => {
+function ItemList({ items }: ItemListProps) {
   if (items.length === 0) {
     return (
       <div className="text-center py-8">
@@ -25,4 +24,6 @@ export const ItemList: React.FC<ItemListProps> = React.memo(({ items }) => {
       ))}
     </div>
   );
-});
+}
+
+export { ItemList };

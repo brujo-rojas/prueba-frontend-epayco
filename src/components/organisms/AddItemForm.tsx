@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { FormField } from "../molecules/FormField";
 import { Button } from "../atoms/Button";
@@ -9,7 +8,7 @@ interface AddItemFormProps {
   onItemAdded?: (item: Item) => void;
 }
 
-export const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
+function AddItemForm({ onItemAdded }: AddItemFormProps) {
   const {
     register,
     handleSubmit,
@@ -87,4 +86,6 @@ export const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
       </form>
     </div>
   );
-};
+}
+
+export { AddItemForm };

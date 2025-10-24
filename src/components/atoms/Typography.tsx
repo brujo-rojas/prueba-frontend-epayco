@@ -6,10 +6,10 @@ interface TypographyProps {
   className?: string;
 }
 
-export const Typography: React.FC<TypographyProps> = React.memo(
-  ({ variant = 'p', children, className = '' }) => {
+function Typography({ variant = 'p', children, className = '' }: TypographyProps) {
     const Component = variant as keyof JSX.IntrinsicElements;
 
-    return <Component className={className}>{children}</Component>;
-  }
-);
+  return <Component className={className}>{children}</Component>;
+}
+
+export { Typography };

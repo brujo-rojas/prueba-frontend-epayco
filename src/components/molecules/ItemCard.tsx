@@ -1,4 +1,3 @@
-import React from "react";
 import { Typography } from "../atoms/Typography";
 import { Item } from "../../types";
 
@@ -6,7 +5,7 @@ interface ItemCardProps {
   item: Item;
 }
 
-export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item }) => {
+function ItemCard({ item }: ItemCardProps) {
   return (
     <div className="bg-white border border-stone-200 rounded-lg p-4 mb-4 shadow-sm hover:shadow-md hover:border-stone-300 transition-all duration-200 cursor-pointer">
       <Typography
@@ -23,4 +22,6 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item }) => {
       </Typography>
     </div>
   );
-});
+}
+
+export { ItemCard };

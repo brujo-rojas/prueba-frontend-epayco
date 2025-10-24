@@ -10,7 +10,7 @@ interface TextareaProps {
   name?: string;
 }
 
-export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ placeholder, value, onChange, onBlur, error, required = false, name, ...props }, ref) => {
     const [charCount, setCharCount] = useState(0);
     
@@ -49,3 +49,5 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     );
   }
 );
+
+export { Textarea };

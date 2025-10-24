@@ -10,7 +10,7 @@ interface InputProps {
   name?: string;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ placeholder, value, onChange, onBlur, error, required = false, name, ...props }, ref) => {
     return (
       <div>
@@ -33,3 +33,5 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
+
+export { Input };

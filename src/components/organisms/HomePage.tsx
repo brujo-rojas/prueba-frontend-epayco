@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { AddItemForm } from "./AddItemForm";
 import { ItemList } from "./ItemList";
 import { useItems } from "../../hooks/useItems";
@@ -6,7 +6,7 @@ import { useCreatedItems } from "../../hooks/useCreatedItems";
 import { Typography } from "../atoms/Typography";
 import { Item } from "../../types";
 
-export const HomePage: React.FC = React.memo(() => {
+function HomePage() {
   const { data: items, error } = useItems();
   const { showOnlyCreated, addCreatedItem, toggleShowAll, getItemsToDisplay, itemsCount } =
     useCreatedItems();
@@ -54,4 +54,6 @@ export const HomePage: React.FC = React.memo(() => {
       </div>
     </div>
   );
-});
+}
+
+export { HomePage };
