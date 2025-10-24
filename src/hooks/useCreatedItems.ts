@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 import { Item } from '../types';
 
 export const useCreatedItems = () => {
@@ -9,7 +9,7 @@ export const useCreatedItems = () => {
     // Generate unique ID for created items to avoid key conflicts
     const uniqueItem = {
       ...item,
-      id: Date.now() + Math.random() // Generate unique ID
+      id: Math.floor(Math.random() * 1000000) + Date.now() // Generate unique numeric ID
     };
     setCreatedItems(prev => [uniqueItem, ...prev]);
     setShowOnlyCreated(true);
@@ -29,12 +29,7 @@ export const useCreatedItems = () => {
     [showOnlyCreated, createdItems]
   );
 
-  const clearCreatedItems = useCallback(() => {
-    setCreatedItems([]);
-    setShowOnlyCreated(false);
-  }, []);
-
-  const itemsCount = useMemo(() => createdItems.length, [createdItems.length]);
+  const itemsCount = createdItems.length;
 
   return {
     createdItems,
@@ -42,7 +37,6 @@ export const useCreatedItems = () => {
     addCreatedItem,
     toggleShowAll,
     getItemsToDisplay,
-    clearCreatedItems,
     itemsCount,
   };
 };

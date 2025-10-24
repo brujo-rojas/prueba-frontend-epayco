@@ -43,6 +43,7 @@ function HomePage() {
               <button
                 onClick={toggleShowAll}
                 className="text-sky-400 hover:text-sky-600 underline text-sm font-medium transition-colors cursor-pointer"
+                aria-label={`${showOnlyCreated ? 'Show original items' : 'Show created items'}`}
               >
                 {showOnlyCreated ? 'Show Original Items' : 'Show Created Items'}
               </button>

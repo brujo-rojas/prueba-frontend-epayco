@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useEffect } from "react";
+import React, { forwardRef } from "react";
 
 interface TextareaProps {
   placeholder?: string;
@@ -12,15 +12,9 @@ interface TextareaProps {
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ placeholder, value, onChange, onBlur, error, required = false, name, ...props }, ref) => {
-    const [charCount, setCharCount] = useState(0);
-    
-    // Sync charCount with value prop
-    useEffect(() => {
-      setCharCount(value?.length || 0);
-    }, [value]);
+    const charCount = value?.length || 0;
     
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setCharCount(e.target.value.length);
       onChange?.(e);
     };
     
@@ -34,14 +28,15 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           required={required}
           rows={3}
           name={name}
+          aria-describedby={error ? `${name}-error` : `${name}-count`}
           className={`w-full p-2 border rounded-md resize-none bg-white cursor-text ${
             error ? "border-red-500" : "border-stone-300"
           } focus:outline-none focus:ring-2 focus:ring-stone-400 focus:border-transparent`}
           {...props}
         />
         <div className="flex justify-between items-center mt-1">
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-          <p className="text-xs ml-auto text-stone-400">
+          {error && <p id={`${name}-error`} className="text-red-500 text-sm">{error}</p>}
+          <p id={`${name}-count`} className="text-xs ml-auto text-stone-400">
             {charCount} characters
           </p>
         </div>

@@ -23,15 +23,13 @@ function AddItemForm({ onItemAdded }: AddItemFormProps) {
   const bodyValue = watch("body");
 
   const onSubmit = (data: AddItemFormData) => {
-    console.log('Form submitted with data:', data);
     addItem(data, {
       onSuccess: (newItem: Item) => {
-        console.log('Item created successfully:', newItem);
         reset();
         onItemAdded?.(newItem);
       },
-      onError: (error: Error) => {
-        console.error('Error creating item:', error);
+      onError: () => {
+        // Error is handled by react-query
       }
     });
   };
@@ -71,14 +69,6 @@ function AddItemForm({ onItemAdded }: AddItemFormProps) {
         />
 
         <div className="flex justify-end space-x-4">
-            {/* <Button
-              type="button"
-              onClick={() => reset()}
-              disabled={isLoading}
-              variant="secondary"
-            >
-              Clear
-            </Button> */}
           <Button type="submit" disabled={isLoading} variant="success">
             {isLoading ? "Saving..." : "Add Item"}
           </Button>
