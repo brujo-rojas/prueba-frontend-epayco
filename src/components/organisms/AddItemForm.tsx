@@ -1,11 +1,9 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { FormField } from '../molecules/FormField';
-import { Button } from '../atoms/Button';
-import { Typography } from '../atoms/Typography';
-import { AddItemFormData, Item } from '../../types';
-import { useAddItem } from '../../hooks/useAddItem';
-import { useFormValidation } from '../../hooks/useFormValidation';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { FormField } from "../molecules/FormField";
+import { Button } from "../atoms/Button";
+import { AddItemFormData, Item } from "../../types";
+import { useAddItem } from "../../hooks/useAddItem";
 
 interface AddItemFormProps {
   onItemAdded?: (item: Item) => void;
@@ -16,41 +14,43 @@ export const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
-  } = useForm<AddItemFormData>();
+  } = useForm<AddItemFormData>({
+    mode: 'onSubmit',
+    reValidateMode: 'onBlur'
+  });
   const { mutate: addItem, isLoading } = useAddItem();
-  const { validateAll } = useFormValidation();
+  const bodyValue = watch("body");
 
   const onSubmit = (data: AddItemFormData) => {
-    const validationErrors = validateAll(data);
-    if (Object.keys(validationErrors).length === 0) {
-      addItem(data, {
-        onSuccess: (newItem: Item) => {
-          reset();
-          onItemAdded?.(newItem);
-        },
-      });
-    }
+    console.log('Form submitted with data:', data);
+    addItem(data, {
+      onSuccess: (newItem: Item) => {
+        console.log('Item created successfully:', newItem);
+        reset();
+        onItemAdded?.(newItem);
+      },
+      onError: (error: Error) => {
+        console.error('Error creating item:', error);
+      }
+    });
   };
 
   return (
-    <div className="border p-6">
-      <Typography variant="h1" className="mb-6">
-        Add New Item
-      </Typography>
-
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <div className="bg-white/60 backdrop-blur-sm border border-stone-200 rounded-lg p-4 shadow-sm max-w-3xl mx-auto">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
         <FormField
           label="Title"
           type="text"
           placeholder="Enter item title"
           error={errors.title?.message as string}
           required
-          {...register('title', {
-            required: 'Title is required',
+          {...register("title", {
+            required: "Title is required",
             minLength: {
               value: 3,
-              message: 'Title must be at least 3 characters',
+              message: "Title must be at least 3 characters",
             },
           })}
         />
@@ -61,21 +61,27 @@ export const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
           placeholder="Enter item content"
           error={errors.body?.message as string}
           required
-          {...register('body', {
-            required: 'Content is required',
+          value={bodyValue}
+          {...register("body", {
+            required: "Content is required",
             minLength: {
               value: 10,
-              message: 'Content must be at least 10 characters',
+              message: "Content must be at least 10 characters",
             },
           })}
         />
 
         <div className="flex justify-end space-x-4">
-          <Button type="button" onClick={() => reset()} disabled={isLoading}>
-            Clear
-          </Button>
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? 'Saving...' : 'Save Item'}
+            {/* <Button
+              type="button"
+              onClick={() => reset()}
+              disabled={isLoading}
+              variant="secondary"
+            >
+              Clear
+            </Button> */}
+          <Button type="submit" disabled={isLoading} variant="success">
+            {isLoading ? "Saving..." : "Add Item"}
           </Button>
         </div>
       </form>

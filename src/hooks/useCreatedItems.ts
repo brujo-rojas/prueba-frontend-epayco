@@ -6,12 +6,17 @@ export const useCreatedItems = () => {
   const [showOnlyCreated, setShowOnlyCreated] = useState(false);
 
   const addCreatedItem = useCallback((item: Item) => {
-    setCreatedItems(prev => [item, ...prev]);
+    // Generate unique ID for created items to avoid key conflicts
+    const uniqueItem = {
+      ...item,
+      id: Date.now() + Math.random() // Generate unique ID
+    };
+    setCreatedItems(prev => [uniqueItem, ...prev]);
     setShowOnlyCreated(true);
   }, []);
 
-  const showAllItems = useCallback(() => {
-    setShowOnlyCreated(false);
+  const toggleShowAll = useCallback(() => {
+    setShowOnlyCreated(prev => !prev);
   }, []);
 
   const getItemsToDisplay = useCallback(
@@ -35,7 +40,7 @@ export const useCreatedItems = () => {
     createdItems,
     showOnlyCreated,
     addCreatedItem,
-    showAllItems,
+    toggleShowAll,
     getItemsToDisplay,
     clearCreatedItems,
     itemsCount,

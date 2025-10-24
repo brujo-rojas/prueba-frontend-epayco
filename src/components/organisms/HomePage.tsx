@@ -1,21 +1,15 @@
-import React, { useCallback, useMemo } from 'react';
-import { AddItemForm } from './AddItemForm';
-import { ItemList } from './ItemList';
-import { useItems } from '../../hooks/useItems';
-import { useCreatedItems } from '../../hooks/useCreatedItems';
-import { Typography } from '../atoms/Typography';
-import { Button } from '../atoms/Button';
-import { Item } from '../../types';
+import React, { useCallback, useMemo } from "react";
+import { AddItemForm } from "./AddItemForm";
+import { ItemList } from "./ItemList";
+import { useItems } from "../../hooks/useItems";
+import { useCreatedItems } from "../../hooks/useCreatedItems";
+import { Typography } from "../atoms/Typography";
+import { Item } from "../../types";
 
 export const HomePage: React.FC = React.memo(() => {
   const { data: items, error, isLoading } = useItems();
-  const {
-    showOnlyCreated,
-    addCreatedItem,
-    showAllItems,
-    getItemsToDisplay,
-    itemsCount,
-  } = useCreatedItems();
+  const { showOnlyCreated, addCreatedItem, toggleShowAll, getItemsToDisplay, itemsCount } =
+    useCreatedItems();
 
   const handleItemAdded = useCallback(
     (newItem: Item) => {
@@ -27,10 +21,6 @@ export const HomePage: React.FC = React.memo(() => {
   const itemsToDisplay = useMemo(() => {
     return getItemsToDisplay(items || []);
   }, [getItemsToDisplay, items]);
-
-  const titleText = useMemo(() => {
-    return showOnlyCreated ? `Created Items (${itemsCount})` : 'Items List';
-  }, [showOnlyCreated, itemsCount]);
 
   if (isLoading) {
     return (
@@ -49,20 +39,23 @@ export const HomePage: React.FC = React.memo(() => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto min-h-screen">
       <div className="space-y-8">
-        <div className="sticky top-6 z-10">
+        <div className="sticky top-0 z-10">
           <AddItemForm onItemAdded={handleItemAdded} />
         </div>
 
-        <div>
-          <div className="flex justify-between items-center mb-4">
-            <Typography variant="h2">{titleText}</Typography>
-
-            {showOnlyCreated && (
-              <Button onClick={showAllItems}>Show All</Button>
-            )}
-          </div>
+        <div className="max-w-2xl mx-auto px-6">
+          {itemsCount > 0 && (
+            <div className="flex justify-end mb-6">
+              <button
+                onClick={toggleShowAll}
+                className="text-sky-400 hover:text-sky-600 underline text-sm font-medium transition-colors cursor-pointer"
+              >
+                {showOnlyCreated ? 'Show Original Items' : 'Show Created Items'}
+              </button>
+            </div>
+          )}
 
           <ItemList items={itemsToDisplay} />
         </div>
